@@ -1,0 +1,21 @@
+{
+  "name": "Weather extension",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "Check your location weather condition with a single click",
+  "icons": {
+    "128": "weather.png"
+  },
+  "browser_action": {
+    "default_title": "Check your location weather condition with a single click",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "http://*/*",
+    "https://*/*",
+    "geolocation"
+  ],
+  "web_accessible_resources": [
+    "*.ttf"
+  ]
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather extension </title>
+    <meta charset="UTF-8">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
+</head>
+
+<body>
+<div class="transbox">
+    <label class="location"></label>
+</div>
+
+<div class="transbox">
+    <div>
+        <div class="date-time">
+            <div class="date"></div>
+            <div class="time"></div>
+        </div>
+        <div class="temperature"></div>
+        <div class="degree-symbol">&#x2103;</div>
+        <div class="icon"><label class="wi"></label></div>
+    </div>
+</div>
+
+<div class="transbox">
+    <ul class="extra-info">
+        <li id="feels-like"><label>Feels Like:</label></li>
+        <li id="maximum-temperature"><label>Maximum Temperature:</label></li>
+        <li id="minimum-temperature"><label>Minimum Temperature:</label></li>
+        <li id="humidity"><label>Humidity:</label></li>
+        <li id="wind-speed"><label>Wind Speed:</label></li>
+        <li id="cloudiness"><label>Cloudiness:</label></li>
+        <li id="pressure"><label>Pressure:</label></li>
+        <li id="visibility"><label>Visibility:</label></li>
+    </ul>
+</div>
+
+<script src="jquery-3.4.1.min.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

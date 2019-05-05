@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,700');
+
+body {
+    font-family: 'Raleway', sans-serif;
+    color: #ffffff;
+    min-width: 360px;
+    min-height: 380px;
+    background-size: cover;
+}
+
+div.temperature {
+    font-size: 64px;
+    font-weight: 100;
+    float: left;
+}
+
+div.degree-symbol {
+    font-size: 24px;
+    font-weight: 100;
+    margin-top: 15px;
+    float: left;
+}
+
+div.icon {
+    font-weight: 400;
+    font-size: 53px;
+    margin: 5px 20px;
+    float: left;
+}
+
+div.transbox {
+    overflow: hidden;
+    margin: 20px 10px;
+    background-color: #244375;
+    border-radius: 3px;
+    opacity: 0.7;
+}
+
+div.date-time {
+    float: left;
+    margin: 20px 20px;
+    padding-top: 5px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+div.date {
+    margin-bottom: 4px;
+}
+
+label.location {
+    display: block;
+    text-align: center;
+    margin: 12px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+label.wi {
+    line-height: normal;
+}
+
+.extra-info {
+    margin: 20px;
+    padding: 0;
+}
+
+.extra-info li {
+    list-style: none;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.extra-info label {
+    font-weight: bold;
+    margin-right: 7px;
+}
