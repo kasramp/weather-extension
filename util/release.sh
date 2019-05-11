@@ -18,6 +18,8 @@ then
 	yes | cp -rf * /tmp/weather-extension
 	rm -rvf /tmp/weather-extension/util
 	#google-chrome-stable --no-sandbox --pack-extension=/tmp/weather-extension/
+	nvm install $TRAVIS_NODE_VERSION
+	npm install crx
 	cd /tmp/weather-extension
 	crx pack -o
 	ls /tmp/

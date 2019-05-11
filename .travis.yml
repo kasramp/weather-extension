@@ -11,8 +11,7 @@ addons:
 before_install:
   - sudo apt-get install -y jq
   - sudo apt install -y chromium-browser
-  - nvm install $NODE_VERSION
-  - npm install crx
+
 script:
   - chmod +x ./util/release.sh
   - ./util/release.sh
