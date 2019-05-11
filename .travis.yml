@@ -1,0 +1,17 @@
+language: javascript
+sudo: true
+install: true
+addons:
+  chrome: stable
+before_install:
+  - sudo apt-get install -y libxml2-dev
+  - wget https://dl.google.com/go/go1.12.2.linux-amd64.tar.gz
+  - sudo tar -xvf go1.12.2.linux-amd64.tar.gz
+  - sudo mv go /usr/local
+  - export GOROOT=/usr/local/go
+addons:
+  apt:
+    update: true
+script:
+  - chmod +x ./util/release.sh
+  - ./util/release.sh
