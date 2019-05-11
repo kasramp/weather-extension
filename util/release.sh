@@ -5,7 +5,6 @@ TAG_VERSION=v$TAG_VERSION
 
 LAST_RELEASE=`git describe --abbrev=0` || LAST_RELEASE=v0.0
 
-
 if [ "$TAG_VERSION" != "$LAST_RELEASE" ]
 then
 	echo "Start releasing version $TAG_VERSION ..."
@@ -18,8 +17,9 @@ then
 	mkdir -p /tmp/weather-extension
 	yes | cp -rf * /tmp/weather-extension
 	rm -rvf /tmp/weather-extension/util
-	google-chrome-stable --no-sandbox --pack-extension=/tmp/weather-extension/
-	ls /tmp/weather-extension
+	#google-chrome-stable --no-sandbox --pack-extension=/tmp/weather-extension/
+	cd /tmp/weather-extension
+	crx pack -o
 	ls /tmp/
 	go get github.com/aktau/github-release
 	github-release --help
