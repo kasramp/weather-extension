@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAG_VERSION=`cat ../manifest.json | jq '. | .version' | tr -d '"'`
+TAG_VERSION=`cat manifest.json | jq '. | .version' | tr -d '"'`
 TAG_VERSION=v$TAG_VERSION
 
 LAST_RELEASE=`git describe --abbrev=0` || LAST_RELEASE=v0.0
