@@ -17,11 +17,8 @@ then
 	mkdir -p /tmp/weather-extension
 	yes | cp -rf * /tmp/weather-extension
 	rm -rvf /tmp/weather-extension/util
-	#google-chrome-stable --no-sandbox --pack-extension=/tmp/weather-extension/
-	nvm install $TRAVIS_NODE_VERSION
-	npm install crx
-	cd /tmp/weather-extension
-	crx pack -o
+	google-chrome-stable --no-sandbox --pack-extension=/tmp/weather-extension/
+	chromium-browser --pack-extension=/tmp/weather-extension/
 	ls /tmp/
 	go get github.com/aktau/github-release
 	github-release --help
