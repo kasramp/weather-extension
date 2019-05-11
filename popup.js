@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $.ajax({
         type: 'GET',
-        url: 'http://0.0.0.0:8080/v1/weather/currentbyip',
+        url: 'http://weather-api.madadipouya.com/v1/weather/currentbyip',
         crossDomain: true
     }).done(function (response) {
         console.log(response);
@@ -26,7 +26,6 @@ $(document).ready(function () {
         $('#visibility').append(`${response.visibility} km`);
     }).fail(function () {
         $('.wi').removeClass().addClass('wi wi-na');
-
     });
 });
 
@@ -51,7 +50,6 @@ let weatherIcons = new Map([
     ['50n', ['wi-fog', '#a0adb9']]
 ]);
 
-
 function getDate() {
     let today = new Date();
     let month = today.toLocaleString('en-us', {month: 'short'});
@@ -63,4 +61,3 @@ function getTime() {
     let today = new Date();
     return `${today.getHours()} : ${today.getMinutes()}`;
 }
-
