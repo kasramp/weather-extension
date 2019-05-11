@@ -3,9 +3,9 @@ language: javascript
 sudo: true
 install: true
 addons:
+  chrome: stable
   apt:
     update: true
-  chrome: stable
 before_install:
   - sudo apt-get install -y jq
   - sudo apt install -y chromium-browser

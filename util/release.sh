@@ -14,7 +14,7 @@ then
 	mkdir -p /tmp/weather-extension
 	yes | cp -rf * /tmp/weather-extension
 	rm -rvf /tmp/weather-extension/util
-	sudo chrome --no-sandbox --pack-extension /tmp/weather-extension --pack-extension-key
+	sudo google-chrome-stable --no-sandbox --pack-extension /tmp/weather-extension --pack-extension-key
 	ls /tmp/weather-extension
 	ls
 fi
