@@ -18,7 +18,9 @@ then
 	mkdir -p /tmp/weather-extension
 	yes | cp -rf * /tmp/weather-extension
 	rm -rvf /tmp/weather-extension/util
-	chromium-browser --no-sandbox --pack-extension /tmp/weather-extension --pack-extension-key
+	chromium-browser --no-sandbox --pack-extension=/tmp/weather-extension/
 	ls /tmp/weather-extension
 	ls /tmp/
+	go get github.com/aktau/github-release
+	github-release --help
 fi
