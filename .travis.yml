@@ -1,6 +1,6 @@
+os: osx
 language: javascript
 sudo: true
-dist: trusty
 install: true
 addons:
   chrome: stable
