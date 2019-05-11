@@ -1,17 +1,18 @@
-os: osx
+dist: trusty
 language: javascript
 sudo: true
 install: true
 addons:
+  apt:
+    update: true
   chrome: stable
 before_install:
+  - sudo apt-get install -y jq
+  - sudo apt install -y chromium-browser
   - wget https://dl.google.com/go/go1.12.2.linux-amd64.tar.gz
   - sudo tar -xf go1.12.2.linux-amd64.tar.gz
   - sudo mv go /usr/local
   - export GOROOT=/usr/local/go
-addons:
-  apt:
-    update: true
 script:
   - chmod +x ./util/release.sh
   - ./util/release.sh
