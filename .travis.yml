@@ -1,17 +1,12 @@
-dist: trusty
-language: go
+dist: xenial
+language: node_js
 sudo: true
-env:
-  - NODE_VERSION="0.12"
 install: true
 addons:
-  chrome: stable
   apt:
     update: true
 before_install:
   - sudo apt-get install -y jq
-  - sudo apt install -y chromium-browser
-
 script:
   - chmod +x ./util/release.sh
   - ./util/release.sh
