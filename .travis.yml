@@ -1,5 +1,5 @@
 dist: trusty
-language: javascript
+language: go
 sudo: true
 install: true
 addons:
