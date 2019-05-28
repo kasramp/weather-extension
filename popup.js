@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    navigator.geolocation.getCurrentPosition(getWeather);
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(getWeather);
     } else {
