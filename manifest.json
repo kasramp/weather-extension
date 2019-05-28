@@ -13,7 +13,8 @@
   },
   "permissions": [
     "http://*/*",
-    "https://*/*"
+    "https://*/*",
+    "geolocation"
   ],
   "web_accessible_resources": [
     "*.ttf"
