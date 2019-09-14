@@ -1,43 +1,28 @@
-$(document).ready(function () {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(getWeather);
-    } else {
-        $('.wi').removeClass().addClass('wi wi-na');
-    }
+$(document).ready(() => {
+    chrome.runtime.sendMessage({ 'method': 'getWeatherCondition' }, (weatherCondtion) => {
+        displayWeather(weatherCondtion);
+    });
 
-    function getWeather(position) {
-        $.ajax({
-            type: 'GET',
-            url: 'http://weather-api.madadipouya.com/v1/weather/current',
-            crossDomain: true,
-            data: {
-                lat: position.coords.latitude,
-                lon: position.coords.longitude
-            },
-        }).done(function (response) {
-            console.log(response);
-            let iconName = weatherIcons.get(response.iconName)[0];
-            let backgroundColorValue = weatherIcons.get(response.iconName)[1];
+    function displayWeather(weatherCondtion) {
+        let iconName = weatherIcons.get(weatherCondtion.iconName)[0];
+        let backgroundColorValue = weatherIcons.get(weatherCondtion.iconName)[1];
 
-            $('div.transbox').css({ 'background-color': backgroundColorValue });
-            $('body').css('background-image', `url(images/${iconName}.jpg)`);
+        $('div.transbox').css({ 'background-color': backgroundColorValue });
+        $('body').css('background-image', `url(images/${iconName}.jpg)`);
 
-            $('.transbox .location').html(`${response.name}, ${response.country}`);
-            $('.date').html(getDate());
-            $('.time').html(getTime());
-            $('.temperature').html(Math.round(response.main.temp));
-            $('.wi').removeClass().addClass(`wi ${iconName}`);
-            $('#feels-like').append(`${Math.round(response.feelsLike)}&#x2103;`);
-            $('#maximum-temperature').append(`${Math.round(response.main.temp_max)}&#x2103;`);
-            $('#minimum-temperature').append(`${Math.round(response.main.temp_min)}&#x2103;`);
-            $('#humidity').append(`${response.main.humidity}%`);
-            $('#wind-speed').append(`${response.wind.speed} km/h`);
-            $('#cloudiness').append(`${response.clouds.all}%`);
-            $('#pressure').append(`${response.main.pressure} hPa`);
-            $('#visibility').append(`${response.visibility} km`);
-        }).fail(function () {
-            $('.wi').removeClass().addClass('wi wi-na');
-        });
+        $('.transbox .location').html(`${weatherCondtion.name}, ${weatherCondtion.country}`);
+        $('.date').html(getDate());
+        $('.time').html(getTime());
+        $('.temperature').html(Math.round(weatherCondtion.main.temp));
+        $('.wi').removeClass().addClass(`wi ${iconName}`);
+        $('#feels-like').append(`${Math.round(weatherCondtion.feelsLike)}&#x2103;`);
+        $('#maximum-temperature').append(`${Math.round(weatherCondtion.main.temp_max)}&#x2103;`);
+        $('#minimum-temperature').append(`${Math.round(weatherCondtion.main.temp_min)}&#x2103;`);
+        $('#humidity').append(`${weatherCondtion.main.humidity}%`);
+        $('#wind-speed').append(`${weatherCondtion.wind.speed} km/h`);
+        $('#cloudiness').append(`${weatherCondtion.clouds.all}%`);
+        $('#pressure').append(`${weatherCondtion.main.pressure} hPa`);
+        $('#visibility').append(`${weatherCondtion.visibility} km`);
     }
 });
 

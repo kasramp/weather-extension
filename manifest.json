@@ -3,6 +3,10 @@
   "version": "0.1",
   "manifest_version": 2,
   "description": "Check your location weather condition with a single click",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
   "icons": {
     "128": "weather.png"
   },
@@ -14,7 +18,8 @@
   "permissions": [
     "http://*/*",
     "https://*/*",
-    "geolocation"
+    "geolocation",
+    "alarms"
   ],
   "web_accessible_resources": [
     "*.ttf"
