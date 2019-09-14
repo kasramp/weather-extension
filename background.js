@@ -1,5 +1,4 @@
 const ALARM_NAME_WEATHER_EXTENSION_ALARM = "weather-extension-alarm";
-const COMMUNICATION_CHANNEL_NAME_WEATHER_EXTENSION = "weather-extension-channel";
 
 var weatherCondition;
 
