@@ -19,7 +19,8 @@
     "http://*/*",
     "https://*/*",
     "geolocation",
-    "alarms"
+    "alarms",
+    "storage"
   ],
   "web_accessible_resources": [
     "*.ttf"

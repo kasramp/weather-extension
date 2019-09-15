@@ -1,28 +1,26 @@
 $(document).ready(() => {
-    chrome.runtime.sendMessage({ 'method': 'getWeatherCondition' }, (weatherCondtion) => {
-        displayWeather(weatherCondtion);
-    });
+    chrome.runtime.sendMessage({ 'method': 'getWeatherCondition' }, (weatherCondition) => displayWeather(weatherCondition));
 
-    function displayWeather(weatherCondtion) {
-        let iconName = weatherIcons.get(weatherCondtion.iconName)[0];
-        let backgroundColorValue = weatherIcons.get(weatherCondtion.iconName)[1];
+    function displayWeather(weatherCondition) {
+        let iconName = weatherIcons.get(weatherCondition.iconName)[0];
+        let backgroundColorValue = weatherIcons.get(weatherCondition.iconName)[1];
 
         $('div.transbox').css({ 'background-color': backgroundColorValue });
         $('body').css('background-image', `url(images/${iconName}.jpg)`);
 
-        $('.transbox .location').html(`${weatherCondtion.name}, ${weatherCondtion.country}`);
+        $('.transbox .location').html(`${weatherCondition.name}, ${weatherCondition.country}`);
         $('.date').html(getDate());
         $('.time').html(getTime());
-        $('.temperature').html(Math.round(weatherCondtion.main.temp));
+        $('.temperature').html(Math.round(weatherCondition.main.temp));
         $('.wi').removeClass().addClass(`wi ${iconName}`);
-        $('#feels-like').append(`${Math.round(weatherCondtion.feelsLike)}&#x2103;`);
-        $('#maximum-temperature').append(`${Math.round(weatherCondtion.main.temp_max)}&#x2103;`);
-        $('#minimum-temperature').append(`${Math.round(weatherCondtion.main.temp_min)}&#x2103;`);
-        $('#humidity').append(`${weatherCondtion.main.humidity}%`);
-        $('#wind-speed').append(`${weatherCondtion.wind.speed} km/h`);
-        $('#cloudiness').append(`${weatherCondtion.clouds.all}%`);
-        $('#pressure').append(`${weatherCondtion.main.pressure} hPa`);
-        $('#visibility').append(`${weatherCondtion.visibility} km`);
+        $('#feels-like').append(`${Math.round(weatherCondition.feelsLike)}&#x2103;`);
+        $('#maximum-temperature').append(`${Math.round(weatherCondition.main.temp_max)}&#x2103;`);
+        $('#minimum-temperature').append(`${Math.round(weatherCondition.main.temp_min)}&#x2103;`);
+        $('#humidity').append(`${weatherCondition.main.humidity}%`);
+        $('#wind-speed').append(`${weatherCondition.wind.speed} km/h`);
+        $('#cloudiness').append(`${weatherCondition.clouds.all}%`);
+        $('#pressure').append(`${weatherCondition.main.pressure} hPa`);
+        $('#visibility').append(`${weatherCondition.visibility} km`);
     }
 });
 
