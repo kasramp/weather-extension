@@ -23,5 +23,8 @@ After that extract the zip file, then open the browser and go to [chrome://exten
 
 Metis is built with HTML, CSS, [Weather Icon](https://erikflowers.github.io/weather-icons/) and plain old JQuery. The weather condition is acquired by making an ajax call to Eris api.
 
+## Release process
+
+Metis is hooked up with Travis. To release a new version all needed is to update `version` in the `manifest.json` file and commit the changes to upstream. The CI pipeline automatically picks up everything from there and creates a new release and tag.
 ## Contact
 * kasra@madadipouya.com

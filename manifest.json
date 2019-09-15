@@ -1,6 +1,6 @@
 {
   "name": "Weather extension",
-  "version": "0.1",
+  "version": "0.3",
   "manifest_version": 2,
   "description": "Check your location weather condition with a single click",
   "background": {
