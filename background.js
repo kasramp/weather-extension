@@ -1,6 +1,6 @@
 const ALARM_NAME_WEATHER_EXTENSION_ALARM = 'weather-extension-alarm';
 
-chrome.alarms.create(ALARM_NAME_WEATHER_EXTENSION_ALARM, { delayInMinutes: 0.1, periodInMinutes: 0.2 });
+chrome.alarms.create(ALARM_NAME_WEATHER_EXTENSION_ALARM, { delayInMinutes: 5, periodInMinutes: 0.2 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.method == 'getWeatherCondition') {
