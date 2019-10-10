@@ -15,7 +15,7 @@
     "tagArgs": "",
     "push": true,
     "pushArgs": "--follow-tags",
-    "pushRepo": "https://github.com/kasramp/weather-extension.git"
+    "pushRepo": "origin"
   },
   "npm": {
     "publish": false,
