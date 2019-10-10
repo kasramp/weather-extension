@@ -15,5 +15,8 @@ install:
   - sudo apt-get install -y jq
 
 script:
-  - chmod +x ./util/release.sh
-  - ./util/release.sh
+  - git remote rm origin 
+  - git remote add origin https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git 
+  - git symbolic-ref HEAD refs/heads/master
+  - npm install
+  - npm run release --minor --ci

@@ -1,5 +1,9 @@
 {
-  "hooks": {},
+  "hooks": {
+    "before:init": ["npm run lint", "npm test"],
+    "after:bump": ["npm run build", "npm run build-zip"],
+    "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+  },
   "git": {
     "changelog": "git log --pretty=format:\"* %s (%h)\" ${latestTag}...HEAD",
     "requireCleanWorkingDir": false,
