@@ -8,7 +8,7 @@ LAST_RELEASE=`git describe --abbrev=0` || LAST_RELEASE=v0.0
 if [ "$TAG_VERSION" != "$LAST_RELEASE" ]
 then
 	echo "Trying to build the project ..."
-	npm run install && npm run build && npm run build-zip
+	npm install && npm run build && npm run build-zip
 	echo "Start releasing version $TAG_VERSION ..."
 	npm run release
 	#git remote rm origin && git remote add origin https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git
