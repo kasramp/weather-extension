@@ -10,8 +10,8 @@ then
 	echo "Trying to build the project ..."
 	npm install && npm run build && npm run build-zip
 	echo "Start releasing version $TAG_VERSION ..."
+	git remote rm origin && git remote add origin https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git
 	npm run release --minor --ci
-	#git remote rm origin && git remote add origin https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git
 	#git tag -a $TAG_VERSION -m "Release $TAG_VERSION"
 	#git push --tags
 	#git push --set-upstream origin master
