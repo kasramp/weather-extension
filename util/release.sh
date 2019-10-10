@@ -11,6 +11,7 @@ then
 	npm install && npm run build && npm run build-zip
 	echo "Start releasing version $TAG_VERSION ..."
 	git remote rm origin && git remote add origin https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git
+	git branch --set-upstream-to origin https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git
 	npm run release --minor --ci
 	#git tag -a $TAG_VERSION -m "Release $TAG_VERSION"
 	#git push --tags
