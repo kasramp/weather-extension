@@ -1,7 +1,6 @@
 # Metis Weather Extension [![Build Status](https://api.travis-ci.org/kasramp/weather-extension.svg?branch=master)](https://travis-ci.org/kasramp/weather-extension)
 
-Metis is a Google Chrome weather extension which's built on top of [Eris API](http://eris.madadipouya.com/). It provides the current weather condition solely based on the ip address. 
-
+Metis is a Google Chrome weather extension which's built on top of [Eris API](http://eris.madadipouya.com/). It provides the current weather based on the user's geolocation.
 
 ## Screenshots 
 ![Kuala Lumpur](https://user-images.githubusercontent.com/4501120/57571299-73a2f600-740c-11e9-8d31-23c5b1ecac09.jpg)
