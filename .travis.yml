@@ -12,7 +12,6 @@ cache:
     - $HOME/node_modules
 
 install:
-  - sudo apt-get install -y jq
   - export TRAVIS_COMMIT_DESCRIPTION=`git log -n 1`
 
 script:
