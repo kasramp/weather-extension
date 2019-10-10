@@ -1,5 +1,7 @@
-dist: xenial
+dist: bionic
 language: node_js
+node_js:
+  - 12
 sudo: true
 install: true
 addons:
