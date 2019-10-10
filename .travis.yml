@@ -5,8 +5,13 @@ install: true
 addons:
   apt:
     update: true
-before_install:
+cache:
+  directories:
+    - $HOME/node_modules
+
+install:
   - sudo apt-get install -y jq
+
 script:
   - chmod +x ./util/release.sh
   - ./util/release.sh

@@ -4,6 +4,7 @@ chrome.alarms.create(ALARM_NAME_WEATHER_EXTENSION_ALARM, { delayInMinutes: 5, pe
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.method == 'getWeatherCondition') {
+        console.log("CALLING ME");
         chrome.storage.local.get(['weatherCondition'], (result) => sendResponse(result.weatherCondition));
         return true;
     }
