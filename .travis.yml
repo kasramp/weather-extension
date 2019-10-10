@@ -4,8 +4,6 @@ node_js:
   - 12
 sudo: true
 install: true
-git:
-  depth: false
 addons:
   apt:
     update: true
