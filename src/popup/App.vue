@@ -1,5 +1,5 @@
 <template>
-  <div class="main" v-if="weatherCondition" >
+  <div class="main" v-if="weatherCondition">
     <div class="transbox" :style="{'background-color': backgroundColor}">
       <label class="location">{{ weatherCondition.name }}, {{ weatherCondition.country }}</label>
     </div>
@@ -51,7 +51,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       weatherCondition: null,
       date: null,
@@ -59,65 +59,77 @@ export default {
       iconName: null,
       backgroundColor: null,
       backgroundImage: null
-    };
+    }
   },
-  mounted() {
-    chrome.runtime.sendMessage({ method: "getWeatherCondition" }, weatherCondition => {
-        this.weatherCondition = weatherCondition;
-        this.weatherCondition.main.temp = Math.round(weatherCondition.main.temp);
-        this.weatherCondition.temperature = Math.round(weatherCondition.main.temp);
-        this.weatherCondition.feelsLike = Math.round(weatherCondition.feelsLike);
-        this.weatherCondition.maximumTemperature = Math.round(weatherCondition.main.temp_max);
-        this.weatherCondition.minimumTemperature = Math.round(weatherCondition.main.temp_min);
-        this.weatherCondition.humidity = weatherCondition.main.humidity;
-        this.weatherCondition.windSpeed = weatherCondition.wind.speed;
-        this.weatherCondition.cloudiness = weatherCondition.clouds.all;
-        this.weatherCondition.pressure = weatherCondition.main.pressure;
-        this.iconName = weatherIcons.get(weatherCondition.iconName)[0];
-        this.backgroundImage = `url(/images/${this.iconName}.jpg)`;
-        this.backgroundColor = weatherIcons.get(weatherCondition.iconName)[1];
-        this.date = this.getDate();
-        this.time = this.getTime();
-        /* It's a hack to override the background color of body. 
+  mounted () {
+    chrome.runtime.sendMessage(
+      { method: 'getWeatherCondition' },
+      weatherCondition => {
+        this.weatherCondition = weatherCondition
+        this.weatherCondition.main.temp = Math.round(
+          weatherCondition.main.temp
+        )
+        this.weatherCondition.temperature = Math.round(
+          weatherCondition.main.temp
+        )
+        this.weatherCondition.feelsLike = Math.round(
+          weatherCondition.feelsLike
+        )
+        this.weatherCondition.maximumTemperature = Math.round(
+          weatherCondition.main.temp_max
+        )
+        this.weatherCondition.minimumTemperature = Math.round(
+          weatherCondition.main.temp_min
+        )
+        this.weatherCondition.humidity = weatherCondition.main.humidity
+        this.weatherCondition.windSpeed = weatherCondition.wind.speed
+        this.weatherCondition.cloudiness = weatherCondition.clouds.all
+        this.weatherCondition.pressure = weatherCondition.main.pressure
+        this.iconName = weatherIcons.get(weatherCondition.iconName)[0]
+        this.backgroundImage = `url(/images/${this.iconName}.jpg)`
+        this.backgroundColor = weatherIcons.get(weatherCondition.iconName)[1]
+        this.date = this.getDate()
+        this.time = this.getTime()
+        /* It's a hack to override the background color of body.
          * Ideally should use css to stretch out the inner elements.
          */
-        document.body.style.backgroundImage = this.backgroundImage;
+        document.body.style.backgroundImage = this.backgroundImage
       }
     )
   },
   methods: {
-    getDate() {
-      let today = new Date();
-      let month = today.toLocaleString("en-us", { month: "short" });
-      let dayOfWeek = today.toLocaleString("en-use", { weekday: "short" });
-      return `${dayOfWeek} ${month} ${today.getDate()}, ${today.getFullYear()}`;
+    getDate () {
+      let today = new Date()
+      let month = today.toLocaleString('en-us', { month: 'short' })
+      let dayOfWeek = today.toLocaleString('en-use', { weekday: 'short' })
+      return `${dayOfWeek} ${month} ${today.getDate()}, ${today.getFullYear()}`
     },
-    getTime() {
-      let today = new Date();
-      return `${today.getHours()} : ${today.getMinutes()}`;
+    getTime () {
+      let today = new Date()
+      return `${today.getHours()} : ${today.getMinutes()}`
     }
   }
-};
+}
 const weatherIcons = new Map([
-  ["01d", ["wi-day-sunny", "#244375"]],
-  ["01n", ["wi-night-clear", "#1e2a3a"]],
-  ["02d", ["wi-day-cloudy", "#023a47"]],
-  ["02n", ["wi-night-cloudy", "#262930"]],
-  ["03d", ["wi-cloud", "#cec56b"]],
-  ["03n", ["wi-cloud", "#cec56b"]],
-  ["04d", ["wi-cloudy", "#2a2a46"]],
-  ["04n", ["wi-cloudy", "#2a2a46"]],
-  ["09d", ["wi-showers", "#071342"]],
-  ["09n", ["wi-showers", "#071342"]],
-  ["10d", ["wi-day-rain", "#70727f"]],
-  ["10n", ["wi-night-rain", "#113d30"]],
-  ["11d", ["wi-thunderstorm", "#194476"]],
-  ["11n", ["wi-thunderstorm", "#194476"]],
-  ["13d", ["wi-snow", "#807360"]],
-  ["13n", ["wi-snow", "#807360"]],
-  ["50d", ["wi-fog", "#a0adb9"]],
-  ["50n", ["wi-fog", "#a0adb9"]]
-]);
+  ['01d', ['wi-day-sunny', '#244375']],
+  ['01n', ['wi-night-clear', '#1e2a3a']],
+  ['02d', ['wi-day-cloudy', '#023a47']],
+  ['02n', ['wi-night-cloudy', '#262930']],
+  ['03d', ['wi-cloud', '#cec56b']],
+  ['03n', ['wi-cloud', '#cec56b']],
+  ['04d', ['wi-cloudy', '#2a2a46']],
+  ['04n', ['wi-cloudy', '#2a2a46']],
+  ['09d', ['wi-showers', '#071342']],
+  ['09n', ['wi-showers', '#071342']],
+  ['10d', ['wi-day-rain', '#70727f']],
+  ['10n', ['wi-night-rain', '#113d30']],
+  ['11d', ['wi-thunderstorm', '#194476']],
+  ['11n', ['wi-thunderstorm', '#194476']],
+  ['13d', ['wi-snow', '#807360']],
+  ['13n', ['wi-snow', '#807360']],
+  ['50d', ['wi-fog', '#a0adb9']],
+  ['50n', ['wi-fog', '#a0adb9']]
+])
 </script>
 
 <style lang="scss" scoped>
