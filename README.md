@@ -52,7 +52,7 @@ $ npm run build-zip
 
 ## Release process
 
-Metis is hooked up with Travis. To release a new version all needed is to make a commit and push it to upstream. The CI pipeline automatically picks up everything from there and creates a new release and tag.
+Metis is hooked up with Travis. To release a new version all needed is to make a commit and push it to upstream. The CI pipeline automatically picks up everything from there and creates a new release and a tag.
 
 To know more about the release process see `.travis.yml` and `.release-it.json` files.
 
