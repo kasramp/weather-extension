@@ -101,7 +101,7 @@ export default {
     getDate () {
       let today = new Date()
       let month = today.toLocaleString('en-us', { month: 'short' })
-      let dayOfWeek = today.toLocaleString('en-use', { weekday: 'short' })
+      let dayOfWeek = today.toLocaleString('en-us', { weekday: 'short' })
       return `${dayOfWeek} ${month} ${today.getDate()}, ${today.getFullYear()}`
     },
     getTime () {
