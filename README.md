@@ -1,61 +1,69 @@
-# Metis Weather Extension [![Build Status](https://api.travis-ci.org/kasramp/weather-extension.svg?branch=master)](https://travis-ci.org/kasramp/weather-extension)
+# Metis Weather
 
-Metis is a Google Chrome weather extension which's built on top of [Eris API](http://eris.madadipouya.com/). It provides the current weather based on the user's geolocation.
+[![Release](https://github.com/kasramp/weather-extension/actions/workflows/release.yml/badge.svg)](https://github.com/kasramp/weather-extension/actions/workflows/release.yml)
 
-## Screenshots
+A weather popup extension for Chrome, Chromium and Firefox. Click the toolbar icon and see the current weather for where you are. Built on top of the [Eris API](https://weather-api.madadipouya.com) ([source](https://github.com/kasramp/Eris)).
 
-![Kuala Lumpur](https://user-images.githubusercontent.com/4501120/57571299-73a2f600-740c-11e9-8d31-23c5b1ecac09.jpg)
-![Los Angeles](https://user-images.githubusercontent.com/4501120/57571326-d72d2380-740c-11e9-9623-fa4db36a1507.jpg)
-![Dubai](https://user-images.githubusercontent.com/4501120/57571263-f081a000-740b-11e9-9a89-d754a3e86918.jpg)
-![Sydney](https://user-images.githubusercontent.com/4501120/57571264-f1b2cd00-740b-11e9-854d-a1a58d80c5cf.jpg)
+![Metis Weather popup](docs/screenshot.png)
+
+## Requirements
+
+- Chrome or Chromium (Manifest V3), or Firefox 140+ on desktop
 
 ## Installation
 
-Metis is compatible with both Google Chrome and Chromium. You can download it from [Chrome Web Store](https://chrome.google.com/webstore/category/extensions) at this link: TODO
+Store listings: Chrome Web Store (coming soon), Firefox Add-ons (coming soon).
 
-## Developer installation (Beta)
+### From a release zip
 
-To install the latest version, before it gets published to Chrome Web Store, download the latest zip file from [release](https://github.com/kasramp/weather-extension/releases) tab.
-After that extract the zip file, then open the browser and go to [chrome://extensions/](chrome://extensions/). Enable developer mode. Lastly, click on load unpacked and point to the extracted path.
+Download `metis-weather-<version>-chrome.zip` or `metis-weather-<version>-firefox.zip` from the [releases](https://github.com/kasramp/weather-extension/releases) page.
 
-## Technology
+- Chrome / Chromium: unzip it, open `chrome://extensions/`, enable developer mode, click "Load unpacked" and pick the unzipped folder.
+- Firefox: open `about:debugging#/runtime/this-firefox`, click "Load Temporary Add-on" and pick the zip. Temporary add-ons are removed when Firefox restarts.
 
-Metis is built with HTML, CSS, [Weather Icon](https://erikflowers.github.io/weather-icons/) and Vue.js. The weather condition is acquired by making an background call to Eris api.
+## How it works
 
-## Setting up the project
+- When the popup opens it asks the browser for your location and asks Eris for the weather there.
+- If location is denied or unavailable it falls back to an IP lookup.
+- The last result is cached in `localStorage` and shown right away while a fresh one loads.
+- The only permission is `geolocation`. No remote fonts or scripts.
 
-Just clone the repository and open in a editor like VS code.
+## Development
 
-### Run `dev`
+Needs Node 24 (see `.nvmrc`).
 
-```bash
-$ npm run watch:dev
+```
+$ git clone https://github.com/kasramp/weather-extension
+$ cd weather-extension
+$ npm ci
+$ npm run dev
 ```
 
-### Build `dev`
+`npm run dev` rebuilds into `dist/` on every change. Load `dist/` unpacked as described above.
 
-```bash
-$ npm run build:dev
-```
-
-### Build `prod`
-
-```bash
-$ npm run build
-```
-
-### Build zip `prod`
-
-```bash
-$ npm run build-zip
-```
+| Command            | Action                                      |
+| ------------------ | ------------------------------------------- |
+| `npm run build`    | Production build into `dist/`               |
+| `npm test`         | Run the tests (vitest)                      |
+| `npm run lint`     | ESLint and Prettier check                   |
+| `npm run format`   | Format with Prettier                        |
+| `npm run lint:ext` | `web-ext lint` on `dist/`                   |
+| `npm run package`  | Build the zips into `dist-zip/` (see below) |
 
 ## Release process
 
-Metis is hooked up with Travis. To release a new version all needed is to make a commit and push it to upstream. The CI pipeline automatically picks up everything from there and creates a new release and tag.
+CI (`.github/workflows/ci.yml`) runs lint, tests, build and `web-ext lint` on pull requests and on pushes to any branch but master.
 
-To know more about the release process see `.travis.yml` and `.release-it.json` files.
+Merging to master runs `.github/workflows/release.yml`: it runs the checks, and if a tag for the `package.json` version already exists it bumps the patch version and commits `Release v<version>`. It then builds, tags `<version>` and creates a GitHub release with three zips: `chrome`, `firefox` and `source`. To release a minor or major version, edit `version` in `package.json` in the pull request.
+
+Store submission steps are in [publish/](publish/CHECKLIST.md).
+
+The old 1.0.x (Manifest V2) is archived as release [1.0.19](https://github.com/kasramp/weather-extension/releases/tag/1.0.19).
 
 ## Contact
 
-- kasra@madadipouya.com
+kasra@madadipouya.com
+
+## License
+
+MIT
