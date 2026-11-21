@@ -72,6 +72,19 @@ test('renders with an unknown icon code', async () => {
   const w = mount(App)
   await flushPromises()
   expect(w.find('.wi-na').exists()).toBe(true)
+  expect(document.body.style.backgroundColor).not.toBe('')
+  expect(document.body.style.backgroundImage).toBe('')
+})
+
+test('ignores cache save failures', async () => {
+  fetchWeather.mockResolvedValue({ data: sample('B', 'Y'), source: 'ip' })
+  saveCached.mockImplementation(() => {
+    throw new Error('quota')
+  })
+  const w = mount(App)
+  await flushPromises()
+  expect(w.text()).toContain('B, Y')
+  expect(w.text()).not.toContain("Couldn't refresh")
 })
 
 test('treats a malformed cache entry as no cache', async () => {

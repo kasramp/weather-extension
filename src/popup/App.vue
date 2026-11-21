@@ -83,8 +83,12 @@ async function refresh() {
     const { data } = await fetchWeather()
     const now = new Date()
     view.value = toView(data, now)
-    saveCached(data, now)
     stale.value = false
+    try {
+      saveCached(data, now)
+    } catch {
+      // storage full or disabled: the fresh view still stands
+    }
   } catch {
     if (view.value) stale.value = true
     else failed.value = true
