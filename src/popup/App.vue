@@ -1,139 +1,105 @@
 <template>
-  <div v-if="weatherCondition" class="main">
-    <div class="transbox" :style="{ 'background-color': backgroundColor }">
-      <label class="location"
-        >{{ weatherCondition.name }}, {{ weatherCondition.country }}</label
-      >
+  <div v-if="view" class="main">
+    <div class="transbox" :style="{ 'background-color': icon.color }">
+      <label class="location">{{ view.place }}</label>
+      <label v-if="stale" class="stale">Couldn't refresh</label>
     </div>
 
-    <div class="transbox" :style="{ 'background-color': backgroundColor }">
+    <div class="transbox" :style="{ 'background-color': icon.color }">
       <div>
         <div class="date-time">
-          <div class="date">{{ date }}</div>
-          <div class="time">{{ time }}</div>
+          <div class="date">{{ view.date }}</div>
+          <div class="time">{{ view.time }}</div>
         </div>
-        <div class="temperature">{{ weatherCondition.temperature }}</div>
+        <div class="temperature">{{ view.temperature }}</div>
         <div class="degree-symbol">&#x2103;</div>
         <div class="icon">
-          <label :class="`wi ${iconName}`"></label>
+          <label :class="`wi ${icon.icon}`"></label>
         </div>
       </div>
     </div>
 
-    <div class="transbox" :style="{ 'background-color': backgroundColor }">
+    <div class="transbox" :style="{ 'background-color': icon.color }">
       <ul class="extra-info">
         <li id="feels-like">
-          <label>Feels Like: {{ weatherCondition.feelsLike }}&#x2103;</label>
+          <label>Feels Like: {{ view.feelsLike }}&#x2103;</label>
         </li>
         <li id="maximum-temperature">
-          <label
-            >Maximum Temperature:
-            {{ weatherCondition.maximumTemperature }}&#x2103;</label
-          >
+          <label>Maximum Temperature: {{ view.max }}&#x2103;</label>
         </li>
         <li id="minimum-temperature">
-          <label
-            >Minimum Temperature:
-            {{ weatherCondition.minimumTemperature }}&#x2103;</label
-          >
+          <label>Minimum Temperature: {{ view.min }}&#x2103;</label>
         </li>
         <li id="humidity">
-          <label>Humidity: {{ weatherCondition.humidity }}%</label>
+          <label>Humidity: {{ view.humidity }}%</label>
         </li>
         <li id="wind-speed">
-          <label>Wind Speed: {{ weatherCondition.windSpeed }} km/h</label>
+          <label>Wind Speed: {{ view.wind }} km/h</label>
         </li>
         <li id="cloudiness">
-          <label>Cloudiness: {{ weatherCondition.cloudiness }}%</label>
+          <label>Cloudiness: {{ view.cloudiness }}%</label>
         </li>
         <li id="pressure">
-          <label>Pressure: {{ weatherCondition.pressure }} hPa</label>
+          <label>Pressure: {{ view.pressure }} hPa</label>
         </li>
         <li id="visibility">
-          <label>Visibility: {{ weatherCondition.visibility }} km</label>
+          <label>Visibility: {{ view.visibility }} km</label>
         </li>
       </ul>
     </div>
   </div>
+  <div v-else class="main">
+    <div class="transbox">
+      <label v-if="failed" class="location">
+        Couldn't get the weather
+        <button type="button" @click="refresh">Retry</button>
+      </label>
+      <label v-else class="location">Getting the weather…</label>
+    </div>
+  </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      weatherCondition: null,
-      date: null,
-      time: null,
-      iconName: null,
-      backgroundColor: null,
-      backgroundImage: null,
-    }
-  },
-  mounted() {
-    chrome.runtime.sendMessage(
-      { method: 'getWeatherCondition' },
-      (weatherCondition) => {
-        this.weatherCondition = weatherCondition
-        this.weatherCondition.main.temp = Math.round(weatherCondition.main.temp)
-        this.weatherCondition.temperature = Math.round(
-          weatherCondition.main.temp,
-        )
-        this.weatherCondition.feelsLike = Math.round(weatherCondition.feelsLike)
-        this.weatherCondition.maximumTemperature = Math.round(
-          weatherCondition.main.temp_max,
-        )
-        this.weatherCondition.minimumTemperature = Math.round(
-          weatherCondition.main.temp_min,
-        )
-        this.weatherCondition.humidity = weatherCondition.main.humidity
-        this.weatherCondition.windSpeed = weatherCondition.wind.speed
-        this.weatherCondition.cloudiness = weatherCondition.clouds.all
-        this.weatherCondition.pressure = weatherCondition.main.pressure
-        this.iconName = weatherIcons.get(weatherCondition.iconName)[0]
-        this.backgroundImage = `url(/images/${this.iconName}.jpg)`
-        this.backgroundColor = weatherIcons.get(weatherCondition.iconName)[1]
-        this.date = this.getDate()
-        this.time = this.getTime()
-        /* It's a hack to override the background color of body.
-         * Ideally should use css to stretch out the inner elements.
-         */
-        document.body.style.backgroundImage = this.backgroundImage
-      },
-    )
-  },
-  methods: {
-    getDate() {
-      let today = new Date()
-      let month = today.toLocaleString('en-us', { month: 'short' })
-      let dayOfWeek = today.toLocaleString('en-us', { weekday: 'short' })
-      return `${dayOfWeek} ${month} ${today.getDate()}, ${today.getFullYear()}`
-    },
-    getTime() {
-      let today = new Date()
-      return `${today.getHours()} : ${today.getMinutes()}`
-    },
-  },
+<script setup>
+import { computed, onMounted, ref, watchEffect } from 'vue'
+import { fetchWeather, loadCached, saveCached, toView } from './weather.js'
+import { iconFor } from './icons.js'
+
+const view = ref(null)
+const stale = ref(false)
+const failed = ref(false)
+const icon = computed(() => iconFor(view.value?.iconCode))
+
+// body sits outside the app root, so it is styled from here
+watchEffect(() => {
+  const { image, color } = icon.value
+  document.body.style.backgroundImage =
+    view.value && image ? `url(${image})` : ''
+  document.body.style.backgroundColor = view.value && !image ? color : ''
+})
+
+async function refresh() {
+  failed.value = false
+  try {
+    const { data } = await fetchWeather()
+    const now = new Date()
+    view.value = toView(data, now)
+    saveCached(data, now)
+    stale.value = false
+  } catch {
+    if (view.value) stale.value = true
+    else failed.value = true
+  }
 }
-const weatherIcons = new Map([
-  ['01d', ['wi-day-sunny', '#244375']],
-  ['01n', ['wi-night-clear', '#1e2a3a']],
-  ['02d', ['wi-day-cloudy', '#023a47']],
-  ['02n', ['wi-night-cloudy', '#262930']],
-  ['03d', ['wi-cloud', '#cec56b']],
-  ['03n', ['wi-cloud', '#cec56b']],
-  ['04d', ['wi-cloudy', '#2a2a46']],
-  ['04n', ['wi-cloudy', '#2a2a46']],
-  ['09d', ['wi-showers', '#071342']],
-  ['09n', ['wi-showers', '#071342']],
-  ['10d', ['wi-day-rain', '#70727f']],
-  ['10n', ['wi-night-rain', '#113d30']],
-  ['11d', ['wi-thunderstorm', '#194476']],
-  ['11n', ['wi-thunderstorm', '#194476']],
-  ['13d', ['wi-snow', '#807360']],
-  ['13n', ['wi-snow', '#807360']],
-  ['50d', ['wi-fog', '#a0adb9']],
-  ['50n', ['wi-fog', '#a0adb9']],
-])
+
+const cached = loadCached()
+if (cached) {
+  try {
+    view.value = toView(cached.data, cached.fetchedAt)
+  } catch {
+    // wrong-shaped cache: treat as no cache
+  }
+}
+onMounted(refresh)
 </script>
 
 <style scoped>
@@ -183,6 +149,13 @@ label.location {
   margin: 12px;
   font-weight: 700;
   font-size: 14px;
+}
+
+label.stale {
+  display: block;
+  text-align: center;
+  margin: 0 12px 12px;
+  font-size: 12px;
 }
 
 label.wi {
