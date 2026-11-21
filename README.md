@@ -52,7 +52,7 @@ $ npm run dev
 
 ## Release process
 
-CI (`.github/workflows/ci.yml`) runs lint, tests, build and `web-ext lint` on pull requests and on pushes to any branch but master.
+CI (`.github/workflows/ci.yml`) runs lint, tests, build and `web-ext lint` on pull requests.
 
 Merging to master runs `.github/workflows/release.yml`: it runs the checks, and if a tag for the `package.json` version already exists it bumps the patch version and commits `Release v<version>`. It then builds, tags `<version>` and creates a GitHub release with three zips: `chrome`, `firefox` and `source`. To release a minor or major version, edit `version` in `package.json` in the pull request.
 
