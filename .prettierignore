@@ -1,0 +1,7 @@
+dist
+dist-zip
+node_modules
+package-lock.json
+src/popup/vendor
+.superpowers
+docs

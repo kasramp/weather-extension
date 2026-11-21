@@ -1,10 +1,12 @@
 <template>
-  <div class="main" v-if="weatherCondition">
-    <div class="transbox" :style="{'background-color': backgroundColor}">
-      <label class="location">{{ weatherCondition.name }}, {{ weatherCondition.country }}</label>
+  <div v-if="weatherCondition" class="main">
+    <div class="transbox" :style="{ 'background-color': backgroundColor }">
+      <label class="location"
+        >{{ weatherCondition.name }}, {{ weatherCondition.country }}</label
+      >
     </div>
 
-    <div class="transbox" :style="{'background-color': backgroundColor}">
+    <div class="transbox" :style="{ 'background-color': backgroundColor }">
       <div>
         <div class="date-time">
           <div class="date">{{ date }}</div>
@@ -13,21 +15,27 @@
         <div class="temperature">{{ weatherCondition.temperature }}</div>
         <div class="degree-symbol">&#x2103;</div>
         <div class="icon">
-          <label v-bind:class="`wi ${iconName}`"></label>
+          <label :class="`wi ${iconName}`"></label>
         </div>
       </div>
     </div>
 
-    <div class="transbox" :style="{'background-color': backgroundColor}">
+    <div class="transbox" :style="{ 'background-color': backgroundColor }">
       <ul class="extra-info">
         <li id="feels-like">
           <label>Feels Like: {{ weatherCondition.feelsLike }}&#x2103;</label>
         </li>
         <li id="maximum-temperature">
-          <label>Maximum Temperature: {{ weatherCondition.maximumTemperature }}&#x2103;</label>
+          <label
+            >Maximum Temperature:
+            {{ weatherCondition.maximumTemperature }}&#x2103;</label
+          >
         </li>
         <li id="minimum-temperature">
-          <label>Minimum Temperature: {{ weatherCondition.minimumTemperature }}&#x2103;</label>
+          <label
+            >Minimum Temperature:
+            {{ weatherCondition.minimumTemperature }}&#x2103;</label
+          >
         </li>
         <li id="humidity">
           <label>Humidity: {{ weatherCondition.humidity }}%</label>
@@ -51,35 +59,31 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       weatherCondition: null,
       date: null,
       time: null,
       iconName: null,
       backgroundColor: null,
-      backgroundImage: null
+      backgroundImage: null,
     }
   },
-  mounted () {
+  mounted() {
     chrome.runtime.sendMessage(
       { method: 'getWeatherCondition' },
-      weatherCondition => {
+      (weatherCondition) => {
         this.weatherCondition = weatherCondition
-        this.weatherCondition.main.temp = Math.round(
-          weatherCondition.main.temp
-        )
+        this.weatherCondition.main.temp = Math.round(weatherCondition.main.temp)
         this.weatherCondition.temperature = Math.round(
-          weatherCondition.main.temp
+          weatherCondition.main.temp,
         )
-        this.weatherCondition.feelsLike = Math.round(
-          weatherCondition.feelsLike
-        )
+        this.weatherCondition.feelsLike = Math.round(weatherCondition.feelsLike)
         this.weatherCondition.maximumTemperature = Math.round(
-          weatherCondition.main.temp_max
+          weatherCondition.main.temp_max,
         )
         this.weatherCondition.minimumTemperature = Math.round(
-          weatherCondition.main.temp_min
+          weatherCondition.main.temp_min,
         )
         this.weatherCondition.humidity = weatherCondition.main.humidity
         this.weatherCondition.windSpeed = weatherCondition.wind.speed
@@ -94,21 +98,21 @@ export default {
          * Ideally should use css to stretch out the inner elements.
          */
         document.body.style.backgroundImage = this.backgroundImage
-      }
+      },
     )
   },
   methods: {
-    getDate () {
+    getDate() {
       let today = new Date()
       let month = today.toLocaleString('en-us', { month: 'short' })
       let dayOfWeek = today.toLocaleString('en-us', { weekday: 'short' })
       return `${dayOfWeek} ${month} ${today.getDate()}, ${today.getFullYear()}`
     },
-    getTime () {
+    getTime() {
       let today = new Date()
       return `${today.getHours()} : ${today.getMinutes()}`
-    }
-  }
+    },
+  },
 }
 const weatherIcons = new Map([
   ['01d', ['wi-day-sunny', '#244375']],
@@ -128,11 +132,11 @@ const weatherIcons = new Map([
   ['13d', ['wi-snow', '#807360']],
   ['13n', ['wi-snow', '#807360']],
   ['50d', ['wi-fog', '#a0adb9']],
-  ['50n', ['wi-fog', '#a0adb9']]
+  ['50n', ['wi-fog', '#a0adb9']],
 ])
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 div.temperature {
   font-size: 64px;
   font-weight: 100;
