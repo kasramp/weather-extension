@@ -71,8 +71,9 @@ export function toView(data, fetchedAt) {
   }
 }
 
-export function loadCached(storage = localStorage) {
+export function loadCached(storage) {
   try {
+    storage ??= localStorage
     const { data, fetchedAt } = JSON.parse(storage.getItem(CACHE_KEY))
     const at = new Date(fetchedAt)
     return data && !isNaN(at) ? { data, fetchedAt: at } : null

@@ -108,3 +108,16 @@ test('cache round-trips and ignores corrupt data', () => {
   store.set('weatherCondition', '{bad')
   expect(loadCached(storage)).toBeNull()
 })
+
+test('loadCached returns null when localStorage access throws', () => {
+  const spy = vi
+    .spyOn(globalThis, 'localStorage', 'get')
+    .mockImplementation(() => {
+      throw new Error('denied')
+    })
+  try {
+    expect(loadCached()).toBeNull()
+  } finally {
+    spy.mockRestore()
+  }
+})
