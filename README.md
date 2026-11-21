@@ -50,6 +50,32 @@ $ npm run dev
 | `npm run lint:ext` | `web-ext lint` on `dist/`                   |
 | `npm run package`  | Build the zips into `dist-zip/` (see below) |
 
+## Testing locally
+
+Build once:
+
+```
+$ npm ci
+$ npm run build
+```
+
+### Chromium / Chrome
+
+1. Open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked** and pick the `dist/` folder.
+2. Pin Metis Weather from the puzzle-piece menu and click its icon. You should see the weather for your location.
+3. IP fallback: right-click inside the popup → **Inspect**. In DevTools open **⋮ → More tools → Sensors**, set **Location** to **Location unavailable**, then press `Ctrl+R` in DevTools to reload the popup. It shows the weather from your IP address. It waits up to 10 seconds for a location first.
+4. After a rebuild, click the reload arrow on the extension's card in `chrome://extensions`.
+
+Or start a throwaway Chromium profile with the extension loaded: `npx web-ext run -s dist -t chromium`.
+
+### Firefox
+
+1. `npx web-ext run -s dist` opens a throwaway Firefox profile with the extension loaded and reloads it on every rebuild. Or, in your own Firefox: `about:debugging#/runtime/this-firefox` → **Load Temporary Add-on** → pick `dist/manifest.json` (removed when Firefox restarts).
+2. Click the Metis Weather icon (puzzle-piece menu if it is hidden). You should see the weather for your location.
+3. IP fallback: start with location switched off: `npx web-ext run -s dist --pref geo.enabled=false`. The popup shows the weather from your IP address.
+
+Both browsers keep the last result and show it first, so a fresh result can take a moment to replace it.
+
 ## Release process
 
 CI (`.github/workflows/ci.yml`) runs lint, tests, build and `web-ext lint` on pull requests.
@@ -58,7 +84,7 @@ Merging to master runs `.github/workflows/release.yml`: it runs the checks, and 
 
 If a release run fails after it pushed the bump commit, push a new commit instead of re-running it: a re-run checks out the old commit and the bump push fails as non-fast-forward.
 
-Store submission steps are in [publish/](publish/CHECKLIST.md).
+Store submission steps are in [publish/](publish/README.md).
 
 The old 1.0.x (Manifest V2) is archived as release [1.0.19](https://github.com/kasramp/weather-extension/releases/tag/1.0.19).
 
