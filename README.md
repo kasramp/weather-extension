@@ -56,6 +56,8 @@ CI (`.github/workflows/ci.yml`) runs lint, tests, build and `web-ext lint` on pu
 
 Merging to master runs `.github/workflows/release.yml`: it runs the checks, and if a tag for the `package.json` version already exists it bumps the patch version and commits `Release v<version>`. It then builds, tags `<version>` and creates a GitHub release with three zips: `chrome`, `firefox` and `source`. To release a minor or major version, edit `version` in `package.json` in the pull request.
 
+If a release run fails after it pushed the bump commit, push a new commit instead of re-running it: a re-run checks out the old commit and the bump push fails as non-fast-forward.
+
 Store submission steps are in [publish/](publish/CHECKLIST.md).
 
 The old 1.0.x (Manifest V2) is archived as release [1.0.19](https://github.com/kasramp/weather-extension/releases/tag/1.0.19).
